@@ -1,7 +1,7 @@
 # Credit Risk Analysis via Machine Learning
 
 ## Overview of the Analysis
-This analysis consisted of a comparison of resampling models and Ensemble classifier models to determine if there was a single model that was best for determining credit risk.
+This analysis consisted of a comparison of resampling models and Ensemble classifier models to determine if there was a single model that was best for determining credit risk when presented with an imbalanced dataset.
 
 ## Technology
 This project included the following technologies:
@@ -17,14 +17,23 @@ This project included the following technologies:
     * BalancedRandomForestClassifier - A balanced decision tree model employing random undersampling.
     * EasyEnsembleClassifier - An ensemble of balanced boosted learners (decision trees). Balancing is via random undersampling.
 
+## Analysis
+For both the resampling and ensemble models, the effects of data scaling were explored to determine if this preprocessing activity would generate a noticeable performance impact.
+
+In all cases, the output of the resampling and ensemble models was presented to the LogisticRegression model for performance measurement, that is the ability to use the output data from the resampling/ensemble model to predict whether issuing a loan would pose a risk (bad loan).
+
+Because the LogisticRegression model is classified as a linear model, it was believed that scaled data would benefit all of the input models, but the results revealed that that was not correct in all cases and are presented below.
+
 ## Results
+
+### Unscaled input data
 * RandomOverSampler
 
     ![RandomOverSampler Results](Resources/ros-results.png)
 
-    * Balanced Accuracy Score - 0.664794698015171
+    * Balanced Accuracy Score - 0.6483061689003324
     * Precision - 0.99
-    * Recall - 0.61
+    * Recall - 0.60
     * F1 Score - 0.75
 
     Here we see that about 25% of the positive and negative values are miscalculated, so the F1 score is a better indicator for the power of this model.
@@ -33,67 +42,131 @@ This project included the following technologies:
 
     ![SMOTE Results](Resources/smote-results.png)
 
-    * Balanced Accuracy Score - 0.664794698015171
+    * Balanced Accuracy Score - 0.6483061689003324
     * Precision - 0.99
-    * Recall - 0.61
+    * Recall - 0.60
     * F1 Score - 0.75
 
-    Results are identical to the model above.
 
 * ClusterCentroid
 
     ![ClusterCentroids Results](Resources/clustercentroids-results.png)
 
-    * Balanced Accuracy Score - 0.664794698015171
+    * Balanced Accuracy Score - 0.6483061689003324
     * Precision - 0.99
-    * Recall - 0.61
+    * Recall - 0.60
     * F1 Score - 0.75
-
-    The Balanced accuracy score is a little lower for this model, but the precision, recall, and F1 scores are all identical to the other resampling models.
     
 * SMOTEENN
 
     ![SMOTEENN Results](Resources/smoteenn-results.png)
 
-    * Balanced Accuracy Score - 0.6465241180338801
+    * Balanced Accuracy Score - 0.6403357097870686
     * Precision - 0.99
-    * Recall - 0.57
-    * F1 Score - 0.72
-
-    All of the scores for this model are lower than those for ther other resampling models that were examined.
+    * Recall - 0.58
+    * F1 Score - 0.73
     
 * BalancedRandomForestClassifier
 
     ![BalancedRandomForestClassifier Results](Resources/brfc-results.png)
 
-    * Balanced Accuracy Score - 0.9993861085126285
-    * Precision - 1.00
-    * Recall - 1.00
-    * F1 Score - 1.00
-
-    The Balanced Accuracy Score suggests that this is the right type of model to use for helping to solve this problem, however, the perfect scores for the other measures suggest that there is a problem.  Perhaps the model is overfitting the data and is only successful within this dataset.
+    * Balanced Accuracy Score - 0.7908650283877781
+    * Precision - 0.99
+    * Recall - 0.90
+    * F1 Score - 0.94
     
 * EasyEnsembleClassifier
 
     ![EasyEnsembleClassifier Results](Resources/ee-results.png)
 
-    * Balanced Accuracy Score - 1.0
-    * Precision - 1.00
-    * Recall - 1.00
-    * F1 Score - 1.00
+    * Balanced Accuracy Score - 0.9322739628967573
+    * Precision - 0.99
+    * Recall - 0.94
+    * F1 Score - 0.97
 
-    A complete collection of perfect scores casts doubt on the results of this model.  These results suggest that the model is overfitting the data and may not be useful with other datasets.
+-----
+
+### Scaled input data
+* RandomOverSampler
+
+    ![RandomOverSampler Results](Resources/ros-results-scaled.png)
+
+    * Balanced Accuracy Score - 0.8328976372847762
+    * Precision - 0.99
+    * Recall - 0.84
+    * F1 Score - 0.91
+
+    
+* SMOTE
+
+    ![SMOTE Results](Resources/smote-results-scaled.png)
+
+    * Balanced Accuracy Score - 0.4855262274356528
+    * Precision - 0.99
+    * Recall - 0.07
+    * F1 Score - 0.11
+
+
+* ClusterCentroid
+
+    ![ClusterCentroids Results](Resources/clustercentroids-results-scaled.png)
+
+    * Balanced Accuracy Score - 0.8328976372847762
+    * Precision - 0.99
+    * Recall - 0.84
+    * F1 Score - 0.91
+
+* SMOTEENN
+
+    ![SMOTEENN Results](Resources/smoteenn-results-scaled.png)
+
+    * Balanced Accuracy Score - 0.8388319216626994
+    * Precision - 0.99
+    * Recall - 0.86
+    * F1 Score - 0.92
+    
+* BalancedRandomForestClassifier
+
+    ![BalancedRandomForestClassifier Results](Resources/brfc-results-scaled.png)
+
+    * Balanced Accuracy Score - 0.7908942613157481
+    * Precision - 0.99
+    * Recall - 0.90
+    * F1 Score - 0.94
+
+    
+* EasyEnsembleClassifier
+
+    ![EasyEnsembleClassifier Results](Resources/ee-results-scaled.png)
+
+    * Balanced Accuracy Score - 0.9322447299687874
+    * Precision - 0.99
+    * Recall - 0.94
+    * F1 Score - 0.97
+
+-----
+
+A spreadsheet comparison was constructed to facilitate model selection.
+
+![Result Details](Resources/result-details.png)
 
 ## Conclusions
 
-Based on the results above, it is not possible to recommend any of these models in this situation.
+From the side-by-side comparison of the model results we can see that there were various models that were affected by the use of scaled input data.
 
-Three of the four resampler models performed identically. The SMOTEENN model had slightly lower scores, so would not be recommended on that basis.
+Note that RandomOverSampler, SMOTE, and ClusterCentroid performed almost identically with unscaled input, but SMOTE was nearly crippled by scaled input.  RandomOverSampler and ClusterCentroid both performed better with this scaled dataset.
 
-The decision tree models had almost perfect scores which disqualifies them from consideration, as this indicates overfitting of the training data and subsequent inappropriate analysis for other datasets.
+If we use the F1 scores as the primary selector criteria because of the imbalanced data, then all of the models, with the exception of SMOTE using scaled input, are all valid canddates for consideration in this scenario.
+
+However the EasyEnsembleClassifier had the highest scores in all measurements, and performed slightly better with scaled input. Based on these results, the EasyEnsembleClassifier with scaled input would be the recommended model for determining loan credit risk.
+
+Using unscaled input data, 
 
 ### Future Considerations
 
-During the examination of the BalancedRandomForestClassifier model, the feature importance was explored, and there are many features that make little or no contreibution to the output of the model.
+During the examination of the BalancedRandomForestClassifier model, the feature importance was explored, and there are many features that make little or no contribution to the output of the model.
 
-In light of this fact, those columns should be removed from the dataset, and the analysis rerun to see if there is a more conclusive outcome with a more focused dataset.
+![BalancedRandomForestClassifier Features](Resources/brfc-features.png)
+
+
+In light of this fact, those columns should be removed from the dataset, and the analysis rerun to see if there are further differences that become apparent with a more focused dataset.
