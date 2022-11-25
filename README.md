@@ -36,8 +36,7 @@ Because the LogisticRegression model is classified as a linear model, it was bel
     * Recall - 0.60
     * F1 Score - 0.75
 
-    Here we see that about 25% of the positive and negative values are miscalculated, so the F1 score is a better indicator for the power of this model.
-    
+	
 * SMOTE
 
     ![SMOTE Results](Resources/smote-results.png)
@@ -46,7 +45,6 @@ Because the LogisticRegression model is classified as a linear model, it was bel
     * Precision - 0.99
     * Recall - 0.60
     * F1 Score - 0.75
-
 
 * ClusterCentroid
 
@@ -159,8 +157,6 @@ Note that RandomOverSampler, SMOTE, and ClusterCentroid performed almost identic
 If we use the F1 scores as the primary selector criteria because of the imbalanced data, then all of the models, with the exception of SMOTE using scaled input, are all valid canddates for consideration in this scenario.
 
 However the EasyEnsembleClassifier had the highest scores in all measurements, and performed slightly better with scaled input. Based on these results, the EasyEnsembleClassifier with scaled input would be the recommended model for determining loan credit risk.
-
-Using unscaled input data, 
 
 ### Future Considerations
 
